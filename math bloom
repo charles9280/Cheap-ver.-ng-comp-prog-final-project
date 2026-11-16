@@ -1,0 +1,305 @@
+#include <iostream>
+#include <cmath>
+#include <iomanip>
+#include <cstdlib>
+#include <ctime>
+using namespace std;
+
+int points = 0; 
+
+int menuChoice();
+int gameOverBM(int lives);
+int bloomMathEasy();
+int bloomMathMedium();
+int bloomMathHard();
+int bloomMath();
+int pollenWords();
+int growAStory();
+int jankenPon();
+int flowerTells();
+int statsCounter();
+
+int main() {
+    srand(time(0)); 
+    cout << fixed << setprecision(2);
+
+    int choice;
+    do {
+        choice = menuChoice();
+        switch (choice) {
+            case 1:
+                if (bloomMath() == 0) {
+                    choice = 0;
+                }
+                break;
+            case 2:
+                pollenWords();
+                break;
+            case 3:
+                growAStory();
+                break;
+            case 4:
+                jankenPon();
+                break;
+            case 5:
+                flowerTells();
+                break;
+        }
+    } while (choice > 0);
+
+    cout << "\nFinal total points: " << points << "\n";
+    cout << "Thank you for playing Niwa Mind! Goodbye!\n";
+    return 0;
+}
+
+int menuChoice() {
+    int choice;
+    cout << "\n==================== NIWA MIND ====================\n"
+         << "Welcome to Niwa Mind, a collection of fun and educational games!\n"
+         << "Help your flower bloom by playing distinct games that challenge your mind and creativity.\n";
+    cout << "Total points: " << points << "\n";
+
+    do {
+        cout << "1. Bloom Math\n"
+             << "2. Pollen Words\n"
+             << "3. Grow A Story\n"
+             << "4. Janken Pon\n"
+             << "5. Flower Tells\n"
+             << "0. Exit\n"
+             << "\nChoose an option: ";
+
+        cin >> choice;
+        if (choice < 0 || choice > 5) {
+            cout << "Invalid choice. Please try again.\n\n";
+        }
+    } while (choice < 0 || choice > 5);
+
+    return choice;
+}
+
+int bloomMathEasy() {
+    int lives = 3;
+    int numQuestions = 15, numCorrectAnswers = 0;
+    int userAnswer, correctAnswer;
+
+    cout << "You chose Easy difficulty. Solve simple addition and subtraction problems.\n";
+
+    while (lives > 0 && numCorrectAnswers < numQuestions) {
+        int num1 = rand() % 1000 + 1;
+        int num2 = rand() % 1000 + 1;
+        int operation = rand() % 2;
+
+        cout << "\nLives: " << lives;
+
+        if (operation == 0) {
+            correctAnswer = num1 + num2;
+            cout << "\nWhat is " << num1 << " + " << num2 << "? ";
+        } else {
+            correctAnswer = num1 - num2;
+            cout << "\nWhat is " << num1 << " - " << num2 << "? ";
+        }
+
+        cin >> userAnswer;
+
+        if (userAnswer == correctAnswer) {
+            cout << "Correct!\n";
+            points += 1;
+            numCorrectAnswers++;
+        } else {
+            cout << "Incorrect. The answer is " << correctAnswer << ".\n";
+            lives--;
+        }
+    }
+
+    cout << "\nCorrect answers: " << numCorrectAnswers << "/" << numQuestions
+         << "\nTotal points: " << points << "\n";
+    return lives;
+}
+
+int bloomMathMedium() {
+    int lives = 3;
+    int numQuestions = 15, numCorrectAnswers = 0;
+    double userAnswer, correctAnswer;
+
+    cout << "You chose Medium difficulty. Solve multiplication and division problems.\n";
+
+    while (lives > 0 && numCorrectAnswers < numQuestions) {
+        int num1 = rand() % 100 + 1;
+        int num2 = rand() % 100 + 1;
+        int operation = rand() % 2;
+
+        cout << "\nLives: " << lives;
+
+        if (operation == 0) {
+            correctAnswer = num1 * num2;
+            cout << "\nWhat is " << num1 << " * " << num2 << "? ";
+        } else {
+            correctAnswer = round((1.0 * num1 / num2) * 100.0) / 100.0;
+            cout << "\nWhat is " << num1 << " / " << num2
+                 << " (Round to 2 decimal places)? ";
+        }
+
+        cin >> userAnswer;
+
+        if (userAnswer == correctAnswer) {
+            cout << "Correct!\n";
+            points += 2;
+            numCorrectAnswers++;
+        } else {
+            cout << "Incorrect. The answer is " << correctAnswer << ".\n";
+            lives--;
+        }
+    }
+
+    cout << "\nCorrect answers: " << numCorrectAnswers << "/" << numQuestions
+         << "\nTotal points: " << points << "\n";
+    return lives;
+}
+
+int bloomMathHard() {
+    int lives = 3;
+    int numQuestions = 15, numCorrectAnswers = 0;
+    double userAnswer, correctAnswer;
+
+    cout << "You chose Hard difficulty. Solve complex math problems.\n";
+
+    while (lives > 0 && numCorrectAnswers < numQuestions) {
+        int num1 = rand() % 100 + 1;
+        int num2 = rand() % 100 + 1;
+        int operation = rand() % 4;
+
+        cout << "\nLives: " << lives;
+
+        if (operation == 0) {
+            correctAnswer = (num1 + num2) * (num2 - num1);
+            cout << "\nWhat is (" << num1 << " + " << num2
+                 << ") * (" << num2 << " - " << num1 << ")? ";
+        } else if (operation == 1) {
+            correctAnswer = (num1 * num2) - (num2 * num1);
+            cout << "\nWhat is (" << num1 << " * " << num2
+                 << ") - (" << num2 << " * " << num1 << ")? ";
+        } else if (operation == 2) {
+            correctAnswer = round((1.0 * num1 * num2 / (num2 * num1)) * 100.0) / 100.0;
+            cout << "\nWhat is (" << num1 << " * " << num2
+                 << ") / (" << num2 << " * " << num1
+                 << ") (Round to 2 decimal places)? ";
+        } else {
+            correctAnswer = round((1.0 * num1 * num2 / (num2 + num1)) * 100.0) / 100.0;
+            cout << "\nWhat is (" << num1 << " * " << num2
+                 << ") / (" << num2 << " + " << num1
+                 << ") (Round to 2 decimal places)? ";
+        }
+
+        cin >> userAnswer;
+
+        if (userAnswer == correctAnswer) {
+            cout << "Correct!\n";
+            points += 3;
+            numCorrectAnswers++;
+        } else {
+            cout << "Incorrect. The answer is " << correctAnswer << ".\n";
+            lives--;
+        }
+    }
+
+    cout << "\nCorrect answers: " << numCorrectAnswers << "/" << numQuestions
+         << "\nTotal points: " << points << "\n";
+    return lives;
+}
+
+int gameOverBM(int lives) {
+    int choiceBM;
+
+    if (lives == 0) {
+        cout << "\nGame over!\n";
+    } else {
+        cout << "\nDifficulty cleared! Your flower blooms!\n";
+    }
+
+    do {
+        cout << "1. Play this difficulty again\n"
+             << "2. Choose another difficulty level\n"
+             << "3. Other games\n"
+             << "0. Exit\n"
+             << "\nChoose an option: ";
+
+        cin >> choiceBM;
+        if (choiceBM < 0 || choiceBM > 3) {
+            cout << "Invalid choice. Please try again.\n\n";
+        }
+    } while (choiceBM < 0 || choiceBM > 3);
+
+    return choiceBM;
+}
+
+int bloomMath() {
+    int level = 1;
+    int lives = 3;
+    int choiceBM = 2; 
+
+    cout << "\n==================== BLOOM MATH ====================\n"
+         << "Welcome to Bloom Math! Clear a difficulty level to help your flower bloom.\n"
+         << "Get 15 correct answers before losing all 3 lives.\n";
+
+    while (choiceBM == 1 || choiceBM == 2) {
+        if (choiceBM == 2) {
+            do {
+                cout << "1. Easy\n"
+                     << "2. Medium\n"
+                     << "3. Hard\n"
+                     << "\nChoose a difficulty level: ";
+
+                cin >> level;
+                if (level < 1 || level > 3) {
+                    cout << "Invalid level. Please try again.\n\n";
+                }
+            } while (level < 1 || level > 3);
+        }
+
+        switch (level) {
+            case 1:
+                lives = bloomMathEasy();
+                break;
+            case 2:
+                lives = bloomMathMedium();
+                break;
+            case 3:
+                lives = bloomMathHard();
+                break;
+        }
+
+        choiceBM = gameOverBM(lives);
+    }
+
+    return choiceBM; 
+}
+
+int pollenWords() {
+    // Placeholder for Pollen Words game logic
+    cout << "Pollen Words game is under construction.\n";
+    return 0;
+}
+
+int growAStory() {
+    // Placeholder for Grow A Story game logic
+    cout << "Grow A Story game is under construction.\n";
+    return 0;
+}
+
+int jankenPon() {
+    // Placeholder for Janken Pon game logic
+    cout << "Janken Pon game is under construction.\n";
+    return 0;
+}
+
+int flowerTells() {
+    // Placeholder for Flower Tells game logic
+    cout << "Flower Tells game is under construction.\n";
+    return 0;
+}
+
+int statsCounter() {
+    // Placeholder for stats counter logic
+    cout << "Stats counter is under construction.\n";
+    return 0;
+}
