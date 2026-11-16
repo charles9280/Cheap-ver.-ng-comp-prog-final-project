@@ -238,7 +238,10 @@ int bloomMath() {
     int choiceBM = 2; 
 
     cout << "\n==================== BLOOM MATH ====================\n"
-         << "Welcome to Bloom Math! Clear a difficulty level to help your flower bloom.\n"
+         << "Welcome to Bloom Math! Solve a problem to help your flower bloom.\n"
+         << "1 points for each easy difficulty problem solved."
+         << "2 points for each medium difficulty problem solved."
+         << "3 points for each hard difficulty problem solved."
          << "Get 15 correct answers before losing all 3 lives.\n";
 
     while (choiceBM == 1 || choiceBM == 2) {
