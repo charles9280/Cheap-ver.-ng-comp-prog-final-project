@@ -85,8 +85,8 @@ int bloomMathEasy() {
     cout << "You chose Easy difficulty. Solve simple addition and subtraction problems.\n";
 
     while (lives > 0 && numCorrectAnswers < numQuestions) {
-        int num1 = rand() % 1000 + 1;
-        int num2 = rand() % 1000 + 1;
+        int num1 = rand() % 100 + 1;
+        int num2 = rand() % 100 + 1;
         int operation = rand() % 2;
 
         cout << "\nLives: " << lives;
