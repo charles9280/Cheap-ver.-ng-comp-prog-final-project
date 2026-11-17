@@ -11,7 +11,6 @@ using namespace std;
 int points = 0;
 int bloomMathPoints = 0;
 int pollenWordsPoints = 0;
-int growAStoryPoints = 0;
 int jankenPonPoints = 0;
 
 int menuChoice();
@@ -26,8 +25,6 @@ int revealCluePW();
 int QnAPW();
 int gameOverPW(int lives);
 int pollenWords();
-
-int growAStory();
 
 int gameOverJP(int lives);
 int jankenPon();
@@ -53,12 +50,9 @@ int main() {
                 }
                 break;
             case 3:
-                growAStory();
-                break;
-            case 4:
                 jankenPon();
                 break;
-            case 5:
+            case 4:
                 statsCounter();
                 break;
         }
@@ -79,17 +73,16 @@ int menuChoice() {
     do {
         cout << "1. Bloom Math\n"
              << "2. Pollen Words\n"
-             << "3. Grow A Story\n"
-             << "4. Janken Pon\n"
-             << "5. Stats Counter\n"
+             << "3. Janken Pon\n"
+             << "4. Stats Counter\n"
              << "0. Exit\n"
              << "\nChoose an option: ";
 
         cin >> choice;
-        if (choice < 0 || choice > 5) {
+        if (choice < 0 || choice > 4) {
             cout << "Invalid choice. Please try again.\n\n";
         }
-    } while (choice < 0 || choice > 5);
+    } while (choice < 0 || choice > 4);
 
     return choice;
 }
@@ -497,12 +490,6 @@ int pollenWords() {
     return choicePW; 
 }
 
-int growAStory() {
-    // Placeholder for Grow A Story game logic
-    cout << "Grow A Story game is under construction.\n";
-    return 0;
-}
-
 int gameOverJP(int lives) {
     int choiceJP;
 
@@ -606,12 +593,11 @@ int jankenPon() {
 
 int statsCounter() {
     int totalPoints = bloomMathPoints + pollenWordsPoints
-                    + growAStoryPoints + jankenPonPoints;
+                    + jankenPonPoints;
 
     cout << "\n==================== STATS COUNTER ====================\n"
          << "Bloom Math: " << bloomMathPoints << " points\n"
          << "Pollen Words: " << pollenWordsPoints << " points\n"
-         << "Grow A Story: " << growAStoryPoints << " points (under construction)\n"
          << "Janken Pon: " << jankenPonPoints << " points\n"
          << "-------------------------------------------------------\n"
          << "Total points: " << totalPoints << "\n";
