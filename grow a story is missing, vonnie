@@ -1,0 +1,610 @@
+#include <iostream>
+#include <cmath>
+#include <iomanip>
+#include <string>
+#include <cstdlib>
+#include <ctime>
+#include <thread>
+#include <chrono>
+using namespace std;
+
+int points = 0;
+int bloomMathPoints = 0;
+int pollenWordsPoints = 0;
+int growAStoryPoints = 0;
+int jankenPonPoints = 0;
+
+int menuChoice();
+
+int bloomMathEasy();
+int bloomMathMedium();
+int bloomMathHard();
+int gameOverBM(int lives);
+int bloomMath();
+
+int revealCluePW();
+int QnAPW();
+int gameOverPW(int lives);
+int pollenWords();
+
+int growAStory();
+
+int gameOverJP(int lives);
+int jankenPon();
+
+int statsCounter();
+
+int main() {
+    srand(time(0)); 
+    cout << fixed << setprecision(2);
+
+    int choice;
+    do {
+        choice = menuChoice();
+        switch (choice) {
+            case 1:
+                if (bloomMath() == 0) {
+                    choice = 0;
+                }
+                break;
+            case 2:
+                if (pollenWords() == 0) {
+                    choice = 0;
+                }
+                break;
+            case 3:
+                growAStory();
+                break;
+            case 4:
+                jankenPon();
+                break;
+            case 5:
+                statsCounter();
+                break;
+        }
+    } while (choice > 0);
+
+    cout << "\nFinal total points: " << points << "\n";
+    cout << "Thank you for playing Niwa Mind! Goodbye!\n";
+    return 0;
+}
+
+int menuChoice() {
+    int choice;
+    cout << "\n==================== NIWA MIND ====================\n"
+         << "Welcome to Niwa Mind, a collection of fun and educational games!\n"
+         << "Help your flower bloom by playing distinct games that challenge your mind and creativity.\n";
+    cout << "Total points: " << points << "\n";
+
+    do {
+        cout << "1. Bloom Math\n"
+             << "2. Pollen Words\n"
+             << "3. Grow A Story\n"
+             << "4. Janken Pon\n"
+             << "5. Stats Counter\n"
+             << "0. Exit\n"
+             << "\nChoose an option: ";
+
+        cin >> choice;
+        if (choice < 0 || choice > 5) {
+            cout << "Invalid choice. Please try again.\n\n";
+        }
+    } while (choice < 0 || choice > 5);
+
+    return choice;
+}
+
+int bloomMathEasy() {
+    int lives = 3;
+    int numQuestions = 15, numCorrectAnswers = 0;
+    int userAnswer, correctAnswer;
+
+    cout << "You chose Easy difficulty. Solve simple addition and subtraction problems.\n";
+
+    while (lives > 0 && numCorrectAnswers < numQuestions) {
+        int num1 = rand() % 100 + 1;
+        int num2 = rand() % 100 + 1;
+        int operation = rand() % 2;
+
+        cout << "\nLives: " << lives;
+
+        if (operation == 0) {
+            correctAnswer = num1 + num2;
+            cout << "\nWhat is " << num1 << " + " << num2 << "? ";
+        } else {
+            correctAnswer = num1 - num2;
+            cout << "\nWhat is " << num1 << " - " << num2 << "? ";
+        }
+
+        cin >> userAnswer;
+
+        if (userAnswer == correctAnswer) {
+            cout << "Correct!\n";
+            points += 1;
+            bloomMathPoints += 1;
+            numCorrectAnswers++;
+        } else {
+            cout << "Incorrect. The answer is " << correctAnswer << ".\n";
+            lives--;
+        }
+    }
+
+    cout << "\nCorrect answers: " << numCorrectAnswers << "/" << numQuestions
+         << "\nTotal points: " << points << "\n";
+    return lives;
+}
+
+int bloomMathMedium() {
+    int lives = 3;
+    int numQuestions = 15, numCorrectAnswers = 0;
+    double userAnswer, correctAnswer;
+
+    cout << "You chose Medium difficulty. Solve multiplication and division problems.\n";
+
+    while (lives > 0 && numCorrectAnswers < numQuestions) {
+        int num1 = rand() % 100 + 1;
+        int num2 = rand() % 100 + 1;
+        int operation = rand() % 2;
+
+        cout << "\nLives: " << lives;
+
+        if (operation == 0) {
+            correctAnswer = num1 * num2;
+            cout << "\nWhat is " << num1 << " * " << num2 << "? ";
+        } else {
+            correctAnswer = round((1.0 * num1 / num2) * 100.0) / 100.0;
+            cout << "\nWhat is " << num1 << " / " << num2
+                 << " (Round to 2 decimal places)? ";
+        }
+
+        cin >> userAnswer;
+
+        if (userAnswer == correctAnswer) {
+            cout << "Correct!\n";
+            points += 2;
+            bloomMathPoints += 2;
+            numCorrectAnswers++;
+        } else {
+            cout << "Incorrect. The answer is " << correctAnswer << ".\n";
+            lives--;
+        }
+    }
+
+    cout << "\nCorrect answers: " << numCorrectAnswers << "/" << numQuestions
+         << "\nTotal points: " << points << "\n";
+    return lives;
+}
+
+int bloomMathHard() {
+    int lives = 3;
+    int numQuestions = 15, numCorrectAnswers = 0;
+    double userAnswer, correctAnswer;
+
+    cout << "You chose Hard difficulty. Solve complex math problems.\n";
+
+    while (lives > 0 && numCorrectAnswers < numQuestions) {
+        int num1 = rand() % 100 + 1;
+        int num2 = rand() % 100 + 1;
+        int operation = rand() % 4;
+
+        cout << "\nLives: " << lives;
+
+        if (operation == 0) {
+            correctAnswer = (num1 + num2) * (num2 - num1);
+            cout << "\nWhat is (" << num1 << " + " << num2
+                 << ") * (" << num2 << " - " << num1 << ")? ";
+        } else if (operation == 1) {
+            correctAnswer = (num1 * num2) - (num2 * num1);
+            cout << "\nWhat is (" << num1 << " * " << num2
+                 << ") - (" << num2 << " * " << num1 << ")? ";
+        } else if (operation == 2) {
+            correctAnswer = round((1.0 * num1 * num2 / (num2 * num1)) * 100.0) / 100.0;
+            cout << "\nWhat is (" << num1 << " * " << num2
+                 << ") / (" << num2 << " * " << num1
+                 << ") (Round to 2 decimal places)? ";
+        } else {
+            correctAnswer = round((1.0 * num1 * num2 / (num2 + num1)) * 100.0) / 100.0;
+            cout << "\nWhat is (" << num1 << " * " << num2
+                 << ") / (" << num2 << " + " << num1
+                 << ") (Round to 2 decimal places)? ";
+        }
+
+        cin >> userAnswer;
+
+        if (userAnswer == correctAnswer) {
+            cout << "Correct!\n";
+            points += 3;
+            bloomMathPoints += 3;
+            numCorrectAnswers++;
+        } else {
+            cout << "Incorrect. The answer is " << correctAnswer << ".\n";
+            lives--;
+        }
+    }
+
+    cout << "\nCorrect answers: " << numCorrectAnswers << "/" << numQuestions
+         << "\nTotal points: " << points << "\n";
+    return lives;
+}
+
+int gameOverBM(int lives) {
+    int choiceBM;
+
+    if (lives == 0) {
+        cout << "\nGame over!\n";
+    } else {
+        cout << "\nDifficulty cleared! Your flower blooms!\n";
+    }
+
+    do {
+        cout << "1. Play this difficulty again\n"
+             << "2. Choose another difficulty level\n"
+             << "3. Other games\n"
+             << "0. Exit\n"
+             << "\nChoose an option: ";
+
+        cin >> choiceBM;
+        if (choiceBM < 0 || choiceBM > 3) {
+            cout << "Invalid choice. Please try again.\n\n";
+        }
+    } while (choiceBM < 0 || choiceBM > 3);
+
+    return choiceBM;
+}
+
+int bloomMath() {
+    int option;
+    int level = 1;
+    int lives = 3;
+    int choiceBM = 2; // Show the difficulty menu first.
+
+    cout << "\n==================== BLOOM MATH ====================\n"
+         << "Welcome to Bloom Math! Solve a problem to help your flower bloom.\n"
+         << "1 point for each Easy problem solved.\n"
+         << "2 points for each Medium problem solved.\n"
+         << "3 points for each Hard problem solved.\n"
+         << "Get 15 correct answers before losing all 3 lives.\n"
+         << "IMPORTANT NOTE: only lowercase answers is considered as correct answer";
+
+    do {
+        cout << "\n1. Start the game\n"
+             << "0. Back to main menu\n"
+             << "\nChoose an option: ";
+        cin >> option;
+        if (option < 0 || option > 1) {
+            cout << "Invalid choice. Please try again.\n";
+        }
+    } while (option < 0 || option > 1);
+
+    if (option == 0) {
+        return 3;
+    }
+
+    while (choiceBM == 1 || choiceBM == 2) {
+        if (choiceBM == 2) {
+            do {
+                cout << "1. Easy\n"
+                     << "2. Medium\n"
+                     << "3. Hard\n"
+                     << "\nChoose a difficulty level: ";
+
+                cin >> level;
+                if (level < 1 || level > 3) {
+                    cout << "Invalid level. Please try again.\n\n";
+                }
+            } while (level < 1 || level > 3);
+        }
+
+        switch (level) {
+            case 1:
+                lives = bloomMathEasy();
+                break;
+            case 2:
+                lives = bloomMathMedium();
+                break;
+            case 3:
+                lives = bloomMathHard();
+                break;
+        }
+
+        choiceBM = gameOverBM(lives);
+    }
+
+    return choiceBM; // 0 = exit; 3 = return to the main menu.
+}
+
+int revealCluePW() {
+    string decision;
+    int choice = -1;
+
+    do {
+        cout << "\nReveal next clue? (y/n): ";
+        cin >> decision;
+
+        if (decision == "y") {
+            choice = 1;
+        } else if (decision == "n") {
+            choice = 0;
+        } else {
+            cout << "Invalid input. Please enter 'y' or 'n'.\n";
+        }
+    } while (choice < 0);
+
+    return choice;
+}
+
+int QnAPW() {
+    int lives = 3;
+    int numQuestions = 10, numCorrectAnswers = 0;
+    int counter = 1;
+    string userAnswer, answer;
+    string clue1, clue2, clue3;
+
+    while (lives > 0 && counter <= numQuestions) {
+        int questionPoints = 3;
+
+        switch (counter) {
+            case 1:
+                clue1 = "A fruit that keeps the doctor away.";
+                clue2 = "A fruit that is often red or green.";
+                clue3 = "A fruit that is often associated with teachers.";
+                answer = "apple";
+                break;
+            case 2:
+                clue1 = "A large mammal with a trunk.";
+                clue2 = "A mammal that is often found in Africa and Asia.";
+                clue3 = "A mammal that is known for its intelligence and memory.";
+                answer = "elephant";
+                break;
+            case 3:
+                clue1 = "A celestial body that orbits a planet.";
+                clue2 = "A celestial body that is often visible at night.";
+                clue3 = "A celestial body that affects tides on Earth.";
+                answer = "moon";
+                break;
+            case 4:
+                clue1 = "A device used to take photographs.";
+                clue2 = "A device that captures images using light.";
+                clue3 = "A device that can be digital or film-based.";
+                answer = "camera";
+                break;
+            case 5:
+                clue1 = "A type of tree known for its acorns.";
+                clue2 = "A tree that is often found in forests and parks.";
+                clue3 = "A tree that is often associated with autumn.";
+                answer = "oak";
+                break;
+            case 6:
+                clue1 = "A type of bird known for its colorful feathers.";
+                clue2 = "A bird that is often found in tropical regions.";
+                clue3 = "A bird that is known for its ability to mimic sounds.";
+                answer = "parrot";
+                break;
+            case 7:
+                clue1 = "A type of flower that is often associated with love.";
+                clue2 = "A flower that is often red in color.";
+                clue3 = "A flower that is commonly given as a gift.";
+                answer = "rose";
+                break;
+            case 8:
+                clue1 = "A type of vehicle that runs on tracks.";
+                clue2 = "A vehicle that is often used for public transportation.";
+                clue3 = "A vehicle that can be powered by electricity or diesel.";
+                answer = "train";
+                break;
+            case 9:
+                clue1 = "A type of fruit that is often yellow in color.";
+                clue2 = "A fruit that is often found on trees.";
+                clue3 = "A fruit that is known for its sweet taste.";
+                answer = "banana";
+                break;
+            case 10:
+                clue1 = "A type of insect that produces honey.";
+                clue2 = "An insect that lives in colonies.";
+                clue3 = "An insect that is known for its ability to make wax.";
+                answer = "bee";
+                break;
+        }
+
+        cout << "\nWord " << counter << "/" << numQuestions
+             << "\nLives: " << lives
+             << "\nClue 1: " << clue1;
+
+        if (revealCluePW() == 1) {
+            cout << "Clue 2: " << clue2;
+            questionPoints = 2;
+
+            if (revealCluePW() == 1) {
+                cout << "Clue 3: " << clue3 << "\n";
+                questionPoints = 1;
+            }
+        }
+
+        cout << "\nYour answer: ";
+        cin >> userAnswer;
+
+        if (userAnswer == answer) {
+            cout << "Correct! You earned " << questionPoints << " points.\n";
+            points += questionPoints;
+            pollenWordsPoints += questionPoints;
+            numCorrectAnswers++;
+        } else {
+            cout << "Incorrect. The answer is " << answer << ".\n";
+            lives--;
+        }
+
+        counter++;
+    }
+
+    cout << "\nCorrect answers: " << numCorrectAnswers << "/" << numQuestions
+         << "\nTotal points: " << points << "\n";
+    return lives;
+}
+
+int gameOverPW(int lives) {
+    int choicePW;
+
+    if (lives == 0) {
+        cout << "\nGame over!\n";
+    } else {
+        cout << "\nCongratulations! You have completed the puzzle!\n";
+    }
+
+    do {
+        cout << "1. Play Pollen Words again\n"
+             << "2. Other games\n"
+             << "0. Exit\n"
+             << "\nChoose an option: ";
+
+        cin >> choicePW;
+        if (choicePW < 0 || choicePW > 2) {
+            cout << "Invalid choice. Please try again.\n\n";
+        }
+    } while (choicePW < 0 || choicePW > 2);
+
+    return choicePW;
+}
+
+int pollenWords() {
+    int option;
+    int lives;
+    int choicePW = 1;
+
+    cout << "\n==================== POLLEN WORDS ====================\n"
+         << "Guess each word using up to 3 clues. Enter answers in lowercase.\n"
+         << "A correct answer earns 3 points after Clue 1, 2 after Clue 2, or 1 after Clue 3.\n"
+         << "Wrong answers cost 1 life. Revealing clues does not remove your saved points.\n"
+         << "Complete 10 word puzzles before losing all 3 lives.\n";
+
+    do {
+        cout << "\n1. Start the game\n"
+             << "0. Back to main menu\n"
+             << "\nChoose an option: ";
+        cin >> option;
+        if (option < 0 || option > 1) {
+            cout << "Invalid choice. Please try again.\n";
+        }
+    } while (option < 0 || option > 1);
+
+    if (option == 0) {
+        return 2;
+    }
+
+    while (choicePW == 1) {
+        lives = QnAPW();
+        choicePW = gameOverPW(lives);
+    }
+
+    return choicePW; 
+}
+
+int growAStory() {
+    // Placeholder for Grow A Story game logic
+    cout << "Grow A Story game is under construction.\n";
+    return 0;
+}
+
+int gameOverJP(int lives) {
+    int choiceJP;
+
+    if (lives == 0) {
+        cout << "\nGame over!\n";
+    } else {
+        cout << "\nCongratulations! You have completed the game!\n";
+    }
+
+    do {
+        cout << "1. Play Janken Pon again\n"
+             << "2. Other games\n"
+             << "0. Exit\n"
+             << "\nChoose an option: ";
+
+        cin >> choiceJP;
+        if (choiceJP < 0 || choiceJP > 2) {
+            cout << "Invalid choice. Please try again.\n\n";
+        }
+    } while (choiceJP < 0 || choiceJP > 2);
+
+    return choiceJP;
+}
+
+int jankenPon() {
+    int lives = 3;
+    int option;
+    char userChoice, computerChoice;
+    int choiceJP = 1;
+
+    cout << "\n==================== JANKEN PON ====================\n"
+         << "Play Rock-Paper-Scissors against the computer.\n"
+         << "Win to earn 1 point. Draws do not affect points or lives.\n"
+         << "You have 3 lives. Good luck!\n";
+
+    do {
+        cout << "\n1. Start the game\n"
+             << "0. Back to main menu\n"
+             << "\nChoose an option: ";
+        cin >> option;
+        if (option < 0 || option > 1) {
+            cout << "Invalid choice. Please try again.\n";
+        }
+    } while (option < 0 || option > 1);
+
+    if (option == 0) {
+        return 2;
+    }
+
+    while (choiceJP == 1 && lives > 0) {
+        cout << "\nLives: " << lives
+             << "\nChoose Rock (r), Paper (p), or Scissors (s): ";
+        cin >> userChoice;
+
+        cout << "\nJan..." << flush;
+        this_thread::sleep_for(chrono::seconds(1));
+
+        cout << " Ken..." << flush;
+        this_thread::sleep_for(chrono::seconds(1));
+
+        cout << " Pon!\n" << flush;
+        this_thread::sleep_for(chrono::seconds(1));
+
+        int computerRandom = rand() % 3;
+        if (computerRandom == 0) {
+            computerChoice = 'r';
+        } else if (computerRandom == 1) {
+            computerChoice = 'p';
+        } else {
+            computerChoice = 's';
+        }
+
+        cout << "Computer chose: " << computerChoice << "\n";
+
+        if (userChoice == computerChoice) {
+            cout << "It's a draw!\n";
+        } else if ((userChoice == 'r' && computerChoice == 's') ||
+                   (userChoice == 'p' && computerChoice == 'r') ||
+                   (userChoice == 's' && computerChoice == 'p')) {
+            cout << "You win!\n";
+            points += 1;
+            jankenPonPoints += 1;
+        } else {
+            cout << "You lose!\n";
+            lives--;
+        }
+    }
+
+    return 0;
+}
+
+int statsCounter() {
+    int totalPoints = bloomMathPoints + pollenWordsPoints
+                    + growAStoryPoints + jankenPonPoints;
+
+    cout << "\n==================== STATS COUNTER ====================\n"
+         << "Bloom Math: " << bloomMathPoints << " points\n"
+         << "Pollen Words: " << pollenWordsPoints << " points\n"
+         << "Grow A Story: " << growAStoryPoints << " points (under construction)\n"
+         << "Janken Pon: " << jankenPonPoints << " points\n"
+         << "-------------------------------------------------------\n"
+         << "Total points: " << totalPoints << "\n";
+    return 0;
+}
