@@ -11,6 +11,7 @@ using namespace std;
 int points = 0;
 int bloomMathPoints = 0;
 int pollenWordsPoints = 0;
+int growAStoryPoints = 0;
 int jankenPonPoints = 0;
 
 int menuChoice();
@@ -25,6 +26,8 @@ int revealCluePW();
 int QnAPW();
 int gameOverPW(int lives);
 int pollenWords();
+
+int growAStory();
 
 int gameOverJP(int lives);
 int jankenPon();
@@ -50,9 +53,12 @@ int main() {
                 }
                 break;
             case 3:
-                jankenPon();
+                growAStory();
                 break;
             case 4:
+                jankenPon();
+                break;
+            case 5:
                 statsCounter();
                 break;
         }
@@ -73,16 +79,17 @@ int menuChoice() {
     do {
         cout << "1. Bloom Math\n"
              << "2. Pollen Words\n"
-             << "3. Janken Pon\n"
-             << "4. Stats Counter\n"
+             << "3. Grow A Story\n"
+             << "4. Janken Pon\n"
+             << "5. Stats Counter\n"
              << "0. Exit\n"
              << "\nChoose an option: ";
 
         cin >> choice;
-        if (choice < 0 || choice > 4) {
+        if (choice < 0 || choice > 5) {
             cout << "Invalid choice. Please try again.\n\n";
         }
-    } while (choice < 0 || choice > 4);
+    } while (choice < 0 || choice > 5);
 
     return choice;
 }
@@ -466,8 +473,7 @@ int pollenWords() {
          << "Guess each word using up to 3 clues. Enter answers in lowercase.\n"
          << "A correct answer earns 3 points after Clue 1, 2 after Clue 2, or 1 after Clue 3.\n"
          << "Wrong answers cost 1 life. Revealing clues does not remove your saved points.\n"
-         << "Complete 10 word puzzles before losing all 3 lives.\n"
-         << "IMPORTANT NOTE: only lowercase answers is considered as correct answer.\n";
+         << "Complete 10 word puzzles before losing all 3 lives.\n";
 
     do {
         cout << "\n1. Start the game\n"
@@ -489,6 +495,12 @@ int pollenWords() {
     }
 
     return choicePW; 
+}
+
+int growAStory() {
+    // Placeholder for Grow A Story game logic
+    cout << "Grow A Story game is under construction.\n";
+    return 0;
 }
 
 int gameOverJP(int lives) {
@@ -518,7 +530,7 @@ int gameOverJP(int lives) {
 int jankenPon() {
     int lives = 3;
     int option;
-    char userChoice, computerChoice;
+    string userChoice, computerChoice;
     int choiceJP = 1;
 
     cout << "\n==================== JANKEN PON ====================\n"
@@ -541,9 +553,19 @@ int jankenPon() {
     }
 
     while (choiceJP == 1 && lives > 0) {
-        cout << "\nLives: " << lives
-             << "\nChoose Rock (r), Paper (p), or Scissors (s): ";
-        cin >> userChoice;
+        int validChoice = 0;
+        cout << "\nLives: " << lives;
+
+        while (validChoice == 0) {
+            cout << "\nChoose Rock (r), Paper (p), or Scissors (s): ";
+            cin >> userChoice;
+
+            if (userChoice == "r" || userChoice == "p" || userChoice == "s") {
+                validChoice = 1;
+            } else {
+                cout << "Invalid choice. Please enter only r, p, or s.\n";
+            }
+        }
 
         cout << "\nJan..." << flush;
         this_thread::sleep_for(chrono::seconds(1));
@@ -556,20 +578,20 @@ int jankenPon() {
 
         int computerRandom = rand() % 3;
         if (computerRandom == 0) {
-            computerChoice = 'r';
+            computerChoice = "r";
         } else if (computerRandom == 1) {
-            computerChoice = 'p';
+            computerChoice = "p";
         } else {
-            computerChoice = 's';
+            computerChoice = "s";
         }
 
         cout << "Computer chose: " << computerChoice << "\n";
 
         if (userChoice == computerChoice) {
             cout << "It's a draw!\n";
-        } else if ((userChoice == 'r' && computerChoice == 's') ||
-                   (userChoice == 'p' && computerChoice == 'r') ||
-                   (userChoice == 's' && computerChoice == 'p')) {
+        } else if ((userChoice == "r" && computerChoice == "s") ||
+                   (userChoice == "p" && computerChoice == "r") ||
+                   (userChoice == "s" && computerChoice == "p")) {
             cout << "You win!\n";
             points += 1;
             jankenPonPoints += 1;
@@ -584,11 +606,12 @@ int jankenPon() {
 
 int statsCounter() {
     int totalPoints = bloomMathPoints + pollenWordsPoints
-                    + jankenPonPoints;
+                    + growAStoryPoints + jankenPonPoints;
 
     cout << "\n==================== STATS COUNTER ====================\n"
          << "Bloom Math: " << bloomMathPoints << " points\n"
          << "Pollen Words: " << pollenWordsPoints << " points\n"
+         << "Grow A Story: " << growAStoryPoints << " points (under construction)\n"
          << "Janken Pon: " << jankenPonPoints << " points\n"
          << "-------------------------------------------------------\n"
          << "Total points: " << totalPoints << "\n";
